@@ -59,23 +59,20 @@ void tick_input(GLFWwindow *window) {
     int right = glfwGetKey(window, GLFW_KEY_RIGHT);
     if (left) {
         // Do something
-        // ball1.position.x -= 0.01;
+        ball1.horizontal_movement(true);
         ball1.tick(-1);
     }
-    if(right)
+    else if(right)
     {
+        ball1.horizontal_movement(true);
         ball1.tick(1);
-        // ball1.position.x += 0.01;
     }
+    else
+        ball1.horizontal_movement(false);
 }
 
 void tick_elements() {
-    // ball1.position.x -= 1;
-    // ball2.position.x += 1;
-    // cout << ball1.moveY << " " << ball2.moveY << endl;
-    // cout << ball1.position.x << " " << ball2.position.x << endl;
-    // ball2.tick(1);
-    // camera_rotation_angle += 1;
+    //function called regularly
 }
 
 /* Initialize the OpenGL rendering properties */

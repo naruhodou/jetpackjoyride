@@ -12,8 +12,15 @@ public:
     void draw(glm::mat4 VP);
     void set_position(float x, float y);
     void tick(int sn);
+    void horizontal_movement(bool flag);
+    void vertical_movement(bool flag);
     double speed;
     bool moveY = false;
+    //ball velocity components
+    double vx, vy;
+    //ball acceleration
+    double ay;
+    bool keypressx, keypressy;
 private:
     VAO *object;
 };

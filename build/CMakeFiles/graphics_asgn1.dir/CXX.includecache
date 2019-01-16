@@ -6,21 +6,21 @@
 
 #IncludeRegexTransform: 
 
-/home/escanor/workarea/graphics/graphics-boilerplate/src/ball.cpp
+/home/escanor/workarea/graphics/jetpackjoyride/src/ball.cpp
 ball.h
-/home/escanor/workarea/graphics/graphics-boilerplate/src/ball.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/ball.h
 main.h
-/home/escanor/workarea/graphics/graphics-boilerplate/src/main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 
-/home/escanor/workarea/graphics/graphics-boilerplate/src/ball.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/ball.h
 main.h
-/home/escanor/workarea/graphics/graphics-boilerplate/src/main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 
-/home/escanor/workarea/graphics/graphics-boilerplate/src/color.cpp
+/home/escanor/workarea/graphics/jetpackjoyride/src/color.cpp
 main.h
-/home/escanor/workarea/graphics/graphics-boilerplate/src/main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 
-/home/escanor/workarea/graphics/graphics-boilerplate/src/input.cpp
+/home/escanor/workarea/graphics/jetpackjoyride/src/input.cpp
 iostream
 -
 cmath
@@ -40,39 +40,19 @@ glm/gtx/transform.hpp
 glm/gtc/matrix_transform.hpp
 -
 main.h
-/home/escanor/workarea/graphics/graphics-boilerplate/src/main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 
-/home/escanor/workarea/graphics/graphics-boilerplate/src/main.cpp
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.cpp
 main.h
-/home/escanor/workarea/graphics/graphics-boilerplate/src/main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 timer.h
-/home/escanor/workarea/graphics/graphics-boilerplate/src/timer.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/timer.h
 ball.h
-/home/escanor/workarea/graphics/graphics-boilerplate/src/ball.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/ball.h
 iostream
 -
 
-/home/escanor/workarea/graphics/graphics-boilerplate/src/main.h
-iostream
--
-cmath
--
-fstream
--
-vector
--
-GL/glew.h
--
-GLFW/glfw3.h
--
-glm/glm.hpp
--
-glm/gtx/transform.hpp
--
-glm/gtc/matrix_transform.hpp
--
-
-/home/escanor/workarea/graphics/graphics-boilerplate/src/nonedit.cpp
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 iostream
 -
 cmath
@@ -91,10 +71,8 @@ glm/gtx/transform.hpp
 -
 glm/gtc/matrix_transform.hpp
 -
-main.h
-/home/escanor/workarea/graphics/graphics-boilerplate/src/main.h
 
-/home/escanor/workarea/graphics/graphics-boilerplate/src/other_handlers.cpp
+/home/escanor/workarea/graphics/jetpackjoyride/src/nonedit.cpp
 iostream
 -
 cmath
@@ -114,13 +92,35 @@ glm/gtx/transform.hpp
 glm/gtc/matrix_transform.hpp
 -
 main.h
-/home/escanor/workarea/graphics/graphics-boilerplate/src/main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 
-/home/escanor/workarea/graphics/graphics-boilerplate/src/timer.cpp
+/home/escanor/workarea/graphics/jetpackjoyride/src/other_handlers.cpp
+iostream
+-
+cmath
+-
+fstream
+-
+vector
+-
+GL/glew.h
+-
+GLFW/glfw3.h
+-
+glm/glm.hpp
+-
+glm/gtx/transform.hpp
+-
+glm/gtc/matrix_transform.hpp
+-
+main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
+
+/home/escanor/workarea/graphics/jetpackjoyride/src/timer.cpp
 timer.h
-/home/escanor/workarea/graphics/graphics-boilerplate/src/timer.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/timer.h
 GLFW/glfw3.h
 -
 
-/home/escanor/workarea/graphics/graphics-boilerplate/src/timer.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/timer.h
 
