@@ -57,22 +57,33 @@ void draw() {
 void tick_input(GLFWwindow *window) {
     int left  = glfwGetKey(window, GLFW_KEY_LEFT);
     int right = glfwGetKey(window, GLFW_KEY_RIGHT);
-    if (left) {
-        // Do something
-        ball1.horizontal_movement(true);
-        ball1.tick(-1);
-    }
-    else if(right)
+    int up = glfwGetKey(window, GLFW_KEY_UP);
+    if(left || right)
     {
         ball1.horizontal_movement(true);
-        ball1.tick(1);
+        if (left) {
+            // Do something
+            ball1.tick(-1);
+        }
+        else if(right)
+        {
+            ball1.tick(1);
+        }
     }
     else
         ball1.horizontal_movement(false);
+    if(up)
+    {
+        ball1.vertical_movement(true);
+        ball1.tick(2);
+    }
+    else
+        ball1.vertical_movement(false);
 }
 
 void tick_elements() {
     //function called regularly
+    ball1.tick(0);
 }
 
 /* Initialize the OpenGL rendering properties */
@@ -81,7 +92,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     /* Objects should be created before any other gl function and shaders */
     // Create the models
 
-    ball1       = Ball(5, 0, COLOR_RED);
+    ball1       = Ball(0, 0, COLOR_RED);
     ball2       = Ball(-5, 0, COLOR_GREEN);
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");

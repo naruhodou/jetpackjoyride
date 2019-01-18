@@ -13,42 +13,42 @@ Ball::Ball(float x, float y, color_t color) {
     // Our vertices. Three consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
     // A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
     static const GLfloat vertex_buffer_data[] = {
-        -1.0f,-1.0f,-1.0f, // triangle 1 : begin
-        -1.0f,-1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f, // triangle 1 : end
-        1.0f, 1.0f,-1.0f, // triangle 2 : begin
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f,-1.0f, // triangle 2 : end
-        1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f,-1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f,-1.0f,
-        -1.0f, 1.0f,-1.0f,
-        1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f
+        -0.5f,-0.5f,-0.5f, // triangle 1 : begin
+        -0.5f,-0.5f, 0.5f,
+        -0.5f, 0.5f, 0.5f, // triangle 1 : end
+        0.5f, 0.5f,-0.5f, // triangle 2 : begin
+        -0.5f,-0.5f,-0.5f,
+        -0.5f, 0.5f,-0.5f, // triangle 2 : end
+        0.5f,-0.5f, 0.5f,
+        -0.5f,-0.5f,-0.5f,
+        0.5f,-0.5f,-0.5f,
+        0.5f, 0.5f,-0.5f,
+        0.5f,-0.5f,-0.5f,
+        -0.5f,-0.5f,-0.5f,
+        -0.5f,-0.5f,-0.5f,
+        -0.5f, 0.5f, 0.5f,
+        -0.5f, 0.5f,-0.5f,
+        0.5f,-0.5f, 0.5f,
+        -0.5f,-0.5f, 0.5f,
+        -0.5f,-0.5f,-0.5f,
+        -0.5f, 0.5f, 0.5f,
+        -0.5f,-0.5f, 0.5f,
+        0.5f,-0.5f, 0.5f,
+        0.5f, 0.5f, 0.5f,
+        0.5f,-0.5f,-0.5f,
+        0.5f, 0.5f,-0.5f,
+        0.5f,-0.5f,-0.5f,
+        0.5f, 0.5f, 0.5f,
+        0.5f,-0.5f, 0.5f,
+        0.5f, 0.5f, 0.5f,
+        0.5f, 0.5f,-0.5f,
+        -0.5f, 0.5f,-0.5f,
+        0.5f, 0.5f, 0.5f,
+        -0.5f, 0.5f,-0.5f,
+        -0.5f, 0.5f, 0.5f,
+        0.5f, 0.5f, 0.5f,
+        -0.5f, 0.5f, 0.5f,
+        0.5f,-0.5f, 0.5f
     };
 
     this->object = create3DObject(GL_TRIANGLES, 12*3, vertex_buffer_data, color, GL_FILL);
@@ -75,8 +75,24 @@ void Ball::tick(int motion_type) {
     {
         if(motion_type == 1)
             this -> position.x += speed;
-        else
+        else if(motion_type == -1)
             this -> position.x -= speed;
+    }
+    if(this -> keypressy)
+    {
+        if(motion_type == 2)
+            this -> position.y += speed;
+    }
+    else
+    {
+        double displacement = this -> vy / 60 + this -> ay / 7200;
+        this -> position.y += displacement;
+        if(this -> position.y < 0)
+            this -> position.y = 0;
+        if(this -> position.y > 0)
+            this -> vy += this -> ay / 60;
+        else
+            this -> vy = 0;
     }
 }
 
