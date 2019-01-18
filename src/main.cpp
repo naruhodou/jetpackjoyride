@@ -57,7 +57,7 @@ void draw() {
 void tick_input(GLFWwindow *window) {
     int left  = glfwGetKey(window, GLFW_KEY_LEFT);
     int right = glfwGetKey(window, GLFW_KEY_RIGHT);
-    int up = glfwGetKey(window, GLFW_KEY_UP);
+    int up = glfwGetKey(window, GLFW_KEY_SPACE);
     if(left || right)
     {
         ball1.horizontal_movement(true);
