@@ -16,6 +16,16 @@ main.h
 main.h
 /home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 
+/home/escanor/workarea/graphics/jetpackjoyride/src/coin.cpp
+coin.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/coin.h
+main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
+
+/home/escanor/workarea/graphics/jetpackjoyride/src/coin.h
+main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
+
 /home/escanor/workarea/graphics/jetpackjoyride/src/color.cpp
 main.h
 /home/escanor/workarea/graphics/jetpackjoyride/src/main.h
@@ -51,6 +61,10 @@ ball.h
 /home/escanor/workarea/graphics/jetpackjoyride/src/ball.h
 iostream
 -
+wall.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/wall.h
+coin.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/coin.h
 
 /home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 iostream
@@ -123,4 +137,14 @@ GLFW/glfw3.h
 -
 
 /home/escanor/workarea/graphics/jetpackjoyride/src/timer.h
+
+/home/escanor/workarea/graphics/jetpackjoyride/src/wall.cpp
+wall.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/wall.h
+main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
+
+/home/escanor/workarea/graphics/jetpackjoyride/src/wall.h
+main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 

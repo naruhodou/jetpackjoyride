@@ -2,6 +2,8 @@
 #include "timer.h"
 #include "ball.h"
 #include <iostream>
+#include "wall.h"
+#include "coin.h"
 using namespace std;
 
 GLMatrices Matrices;
@@ -12,9 +14,11 @@ GLFWwindow *window;
 * Customizable functions *
 **************************/
 
-Ball ball1, ball2;
+Ball ball1;
+Wall wall1, wall2;
+Coin coin1;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
-float camera_rotation_angle = 90;
+float camera_rotation_angle = 0;
 int sn = 1;
 Timer t60(1.0 / 60);
 
@@ -38,7 +42,7 @@ void draw() {
     // Compute Camera matrix (view)
     Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
     // Don't change unless you are sure!!
-    // Matrices.view = glm::lookAt(glm::vec3(0, 0, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)); // Fixed camera for 2D (ortho) in XY plane
+    Matrices.view = glm::lookAt(glm::vec3(0, 0, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)); // Fixed camera for 2D (ortho) in XY plane
 
     // Compute ViewProject matrix as view/camera might not be changed for this frame (basic scenario)
     // Don't change unless you are sure!!
@@ -51,7 +55,9 @@ void draw() {
 
     // Scene render
     ball1.draw(VP);
-    ball2.draw(VP);
+    wall1.draw(VP);
+    wall2.draw(VP);
+    coin1.draw(VP);
 }
 
 void tick_input(GLFWwindow *window) {
@@ -93,7 +99,9 @@ void initGL(GLFWwindow *window, int width, int height) {
     // Create the models
 
     ball1       = Ball(0, 0, COLOR_RED);
-    ball2       = Ball(-5, 0, COLOR_GREEN);
+    wall1       = Wall(0, window_size / 2, COLOR_GREEN, 2.0, 200, -100.0, (float)window_size / 2);
+    wall2       = Wall(0, 0, COLOR_BLACK, window_size - 0.5, 200, -100.0, -0.5);
+    coin1       = Coin(0.25, 0, 4, COLOR_YELLOW);
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
     // Get a handle for our "MVP" uniform
@@ -128,7 +136,7 @@ int main(int argc, char **argv) {
     /* Draw in loop */
     while (!glfwWindowShouldClose(window)) {
         // Process timers
-
+        // cout << wall1 << endl;
         if (t60.processTick()) {
             // 60 fps
             // OpenGL Draw commands
@@ -153,9 +161,9 @@ bool detect_collision(bounding_box_t a, bounding_box_t b) {
 }
 
 void reset_screen() {
-    float top    = screen_center_y + 4 / screen_zoom;
-    float bottom = screen_center_y - 4 / screen_zoom;
-    float left   = screen_center_x - 4 / screen_zoom;
-    float right  = screen_center_x + 4 / screen_zoom;
+    float top    = screen_center_y + window_size / screen_zoom;
+    float bottom = screen_center_y - window_size / screen_zoom;
+    float left   = screen_center_x - window_size / screen_zoom;
+    float right  = screen_center_x + window_size / screen_zoom;
     Matrices.projection = glm::ortho(left, right, bottom, top, 0.1f, 500.0f);
 }

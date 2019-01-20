@@ -8,6 +8,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#define PI 3.14159265359
 #define GLM_ENABLE_EXPERIMENTAL
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
@@ -70,7 +71,7 @@ struct bounding_box_t {
     float width;
     float height;
 };
-
+#define window_size 10
 bool detect_collision(bounding_box_t a, bounding_box_t b);
 
 extern float screen_zoom, screen_center_x, screen_center_y;
@@ -81,5 +82,6 @@ extern const color_t COLOR_RED;
 extern const color_t COLOR_GREEN;
 extern const color_t COLOR_BLACK;
 extern const color_t COLOR_BACKGROUND;
+extern const color_t COLOR_YELLOW;
 
 #endif

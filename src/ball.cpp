@@ -80,8 +80,11 @@ void Ball::tick(int motion_type) {
     }
     if(this -> keypressy)
     {
-        if(motion_type == 2 && this -> position.y <= 3.5)
+        if(motion_type == 2 && this -> position.y <= window_size - 0.5)
+        {
             this -> position.y += speed;
+            this -> vy = speed;
+        }
     }
     else
     {

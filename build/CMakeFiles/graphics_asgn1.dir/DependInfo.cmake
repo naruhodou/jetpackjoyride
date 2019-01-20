@@ -5,12 +5,14 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/escanor/workarea/graphics/jetpackjoyride/src/ball.cpp" "/home/escanor/workarea/graphics/jetpackjoyride/build/CMakeFiles/graphics_asgn1.dir/src/ball.cpp.o"
+  "/home/escanor/workarea/graphics/jetpackjoyride/src/coin.cpp" "/home/escanor/workarea/graphics/jetpackjoyride/build/CMakeFiles/graphics_asgn1.dir/src/coin.cpp.o"
   "/home/escanor/workarea/graphics/jetpackjoyride/src/color.cpp" "/home/escanor/workarea/graphics/jetpackjoyride/build/CMakeFiles/graphics_asgn1.dir/src/color.cpp.o"
   "/home/escanor/workarea/graphics/jetpackjoyride/src/input.cpp" "/home/escanor/workarea/graphics/jetpackjoyride/build/CMakeFiles/graphics_asgn1.dir/src/input.cpp.o"
   "/home/escanor/workarea/graphics/jetpackjoyride/src/main.cpp" "/home/escanor/workarea/graphics/jetpackjoyride/build/CMakeFiles/graphics_asgn1.dir/src/main.cpp.o"
   "/home/escanor/workarea/graphics/jetpackjoyride/src/nonedit.cpp" "/home/escanor/workarea/graphics/jetpackjoyride/build/CMakeFiles/graphics_asgn1.dir/src/nonedit.cpp.o"
   "/home/escanor/workarea/graphics/jetpackjoyride/src/other_handlers.cpp" "/home/escanor/workarea/graphics/jetpackjoyride/build/CMakeFiles/graphics_asgn1.dir/src/other_handlers.cpp.o"
   "/home/escanor/workarea/graphics/jetpackjoyride/src/timer.cpp" "/home/escanor/workarea/graphics/jetpackjoyride/build/CMakeFiles/graphics_asgn1.dir/src/timer.cpp.o"
+  "/home/escanor/workarea/graphics/jetpackjoyride/src/wall.cpp" "/home/escanor/workarea/graphics/jetpackjoyride/build/CMakeFiles/graphics_asgn1.dir/src/wall.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
