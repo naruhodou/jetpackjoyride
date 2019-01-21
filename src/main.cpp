@@ -16,7 +16,7 @@ GLFWwindow *window;
 
 Ball ball1;
 Wall wall1, wall2;
-Coin coin1;
+Coin coinarr[1000];
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
 int sn = 1;
@@ -57,7 +57,11 @@ void draw() {
     ball1.draw(VP);
     wall1.draw(VP);
     wall2.draw(VP);
-    coin1.draw(VP);
+    for(int i = 0; i < 1000; i++)
+    {
+        if(coinarr[i].isdraw)
+            coinarr[i].draw(VP);
+    }
 }
 
 void tick_input(GLFWwindow *window) {
@@ -90,6 +94,15 @@ void tick_input(GLFWwindow *window) {
 void tick_elements() {
     //function called regularly
     ball1.tick(0);
+    for(int i = 0; i < 100; i++)
+    {
+        if(detect_collision(ball1.player, coinarr[i].coin) && coinarr[i].isdraw)
+        {
+            coinarr[i].isdraw = false;
+            ball1.score += 100;
+        }
+    }
+    cout << ball1.score << endl;
 }
 
 /* Initialize the OpenGL rendering properties */
@@ -101,7 +114,12 @@ void initGL(GLFWwindow *window, int width, int height) {
     ball1       = Ball(0, 0, COLOR_RED);
     wall1       = Wall(0, window_size / 2, COLOR_GREEN, 2.0, 200, -100.0, (float)window_size / 2);
     wall2       = Wall(0, 0, COLOR_BLACK, window_size - 0.5, 200, -100.0, -0.5);
-    coin1       = Coin(0.25, 0, 4, COLOR_YELLOW);
+    for(int i = 0; i < 10; i++)
+    {
+        for(int j = 0; j < 10; j++)
+            coinarr[i * 10 + j] = Coin(0.25, 3 + i * 0.6, 2 + 0.6 * j, COLOR_YELLOW);
+    }
+    
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
     // Get a handle for our "MVP" uniform

@@ -10,6 +10,8 @@ public:
     float rotation;
     glm::vec3 position;
     void draw(glm::mat4 VP);
+    bounding_box_t coin;
+    bool isdraw;
 private:
     VAO *object;
 };

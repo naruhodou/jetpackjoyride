@@ -6,6 +6,7 @@ Coin::Coin(float radius, float x, float y, color_t color) {
     // A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
     this->position = glm::vec3(x, y, 0);
     this -> rotation = 0;
+    this -> isdraw = true;
     GLfloat vertex_buffer_data[9 * 300];
     float angle = (2 * PI) / 300, theta = 0;
     for(int i = 0; i < 9 * 300; i++)
@@ -25,6 +26,9 @@ Coin::Coin(float radius, float x, float y, color_t color) {
             vertex_buffer_data[i] = radius * sin(theta);
     }
     this->object = create3DObject(GL_TRIANGLES, 3 * 300, vertex_buffer_data, color, GL_FILL);
+    this -> coin.x = x;
+    this -> coin.y = y;
+    this -> coin.width = this -> coin.height = radius;
 }
 
 void Coin::draw(glm::mat4 VP) {

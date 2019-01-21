@@ -21,6 +21,8 @@ public:
     //ball acceleration
     double ay;
     bool keypressx, keypressy;
+    bounding_box_t player;
+    int score;
 private:
     VAO *object;
 };

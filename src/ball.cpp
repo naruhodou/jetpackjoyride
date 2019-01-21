@@ -2,10 +2,12 @@
 #include "main.h"
 #define GLM_ENABLE_EXPERIMENTAL
 Ball::Ball(float x, float y, color_t color) {
+    // Initialization of values
     this->position = glm::vec3(x, y, 0);
     this->rotation = 0;
     this -> vx = 0;
     this -> vy = 0;
+    this -> score = 0;
     this -> ay = -10;
     this -> keypressx = false;
     this -> keypressy = false;
@@ -50,7 +52,7 @@ Ball::Ball(float x, float y, color_t color) {
         -0.5f, 0.5f, 0.5f,
         0.5f,-0.5f, 0.5f
     };
-
+    this -> player.width = this -> player.height = 0.5;
     this->object = create3DObject(GL_TRIANGLES, 12*3, vertex_buffer_data, color, GL_FILL);
 }
 
@@ -97,6 +99,8 @@ void Ball::tick(int motion_type) {
         else
             this -> vy = 0;
     }
+    this -> player.x = this -> position.x;
+    this -> player.y = this -> position.y;
 }
 
 void Ball :: horizontal_movement(bool flag)
