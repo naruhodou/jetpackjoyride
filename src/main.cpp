@@ -4,6 +4,7 @@
 #include <iostream>
 #include "wall.h"
 #include "coin.h"
+#include "coinzone.h"
 using namespace std;
 
 GLMatrices Matrices;
@@ -17,9 +18,11 @@ GLFWwindow *window;
 Ball ball1;
 Wall wall1, wall2;
 Coin coinarr[1000];
+Coin_Zone czarr[10];
+int total_coins = 0;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
-int sn = 1;
+int sn = 1, standard_coin_length = 10, standard_coin_width = 2, standard_start_px = 5, standard_start_py = 5;
 Timer t60(1.0 / 60);
 
 /* Render the scene with openGL */
@@ -33,16 +36,16 @@ void draw() {
     glUseProgram (programID);
 
     // Eye - Location of camera. Don't change unless you are sure!!
-    glm::vec3 eye ( 5*cos(camera_rotation_angle*M_PI/180.0f), 0, 5*sin(camera_rotation_angle*M_PI/180.0f) );
+    glm::vec3 eye ( ball1.position.x, 0, 1 );
     // Target - Where is the camera looking at.  Don't change unless you are sure!!
-    glm::vec3 target (0, 0, 0);
+    glm::vec3 target (ball1.position.x, 0, 0);
     // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
     glm::vec3 up (0, 1, 0);
 
     // Compute Camera matrix (view)
     Matrices.view = glm::lookAt( eye, target, up ); // Rotating Camera for 3D
     // Don't change unless you are sure!!
-    Matrices.view = glm::lookAt(glm::vec3(0, 0, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)); // Fixed camera for 2D (ortho) in XY plane
+    // Matrices.view = glm::lookAt(glm::vec3(0, 0, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)); // Fixed camera for 2D (ortho) in XY plane
 
     // Compute ViewProject matrix as view/camera might not be changed for this frame (basic scenario)
     // Don't change unless you are sure!!
@@ -57,7 +60,7 @@ void draw() {
     ball1.draw(VP);
     wall1.draw(VP);
     wall2.draw(VP);
-    for(int i = 0; i < 1000; i++)
+    for(int i = 0; i < total_coins; i++)
     {
         if(coinarr[i].isdraw)
             coinarr[i].draw(VP);
@@ -94,7 +97,7 @@ void tick_input(GLFWwindow *window) {
 void tick_elements() {
     //function called regularly
     ball1.tick(0);
-    for(int i = 0; i < 100; i++)
+    for(int i = 0; i < total_coins; i++)
     {
         if(detect_collision(ball1.player, coinarr[i].coin) && coinarr[i].isdraw)
         {
@@ -114,10 +117,12 @@ void initGL(GLFWwindow *window, int width, int height) {
     ball1       = Ball(0, 0, COLOR_RED);
     wall1       = Wall(0, window_size / 2, COLOR_GREEN, 2.0, 200, -100.0, (float)window_size / 2);
     wall2       = Wall(0, 0, COLOR_BLACK, window_size - 0.5, 200, -100.0, -0.5);
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 10; i++, total_coins += standard_coin_length * standard_coin_width)
     {
-        for(int j = 0; j < 10; j++)
-            coinarr[i * 10 + j] = Coin(0.25, 3 + i * 0.6, 2 + 0.6 * j, COLOR_YELLOW);
+        czarr[i] = Coin_Zone(standard_start_px + 8 * i, standard_start_py, standard_coin_length, standard_coin_width);
+        for(int j = 0; j < standard_coin_width; j++)
+            for(int k = 0; k < standard_coin_length; k++)
+                coinarr[total_coins + j * standard_coin_length + k] = Coin(0.25, czarr[i].start_x + k * 0.6, czarr[i].start_y + j * 0.6, COLOR_YELLOW);
     }
     
     // Create and compile our GLSL program from the shaders

@@ -26,6 +26,16 @@ main.h
 main.h
 /home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 
+/home/escanor/workarea/graphics/jetpackjoyride/src/coin_zone.cpp
+coinzone.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/coinzone.h
+main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
+
+/home/escanor/workarea/graphics/jetpackjoyride/src/coinzone.h
+main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
+
 /home/escanor/workarea/graphics/jetpackjoyride/src/color.cpp
 main.h
 /home/escanor/workarea/graphics/jetpackjoyride/src/main.h
@@ -65,6 +75,8 @@ wall.h
 /home/escanor/workarea/graphics/jetpackjoyride/src/wall.h
 coin.h
 /home/escanor/workarea/graphics/jetpackjoyride/src/coin.h
+coinzone.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/coinzone.h
 
 /home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 iostream

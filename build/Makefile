@@ -177,6 +177,33 @@ src/coin.cpp.s:
 	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/coin.cpp.s
 .PHONY : src/coin.cpp.s
 
+src/coin_zone.o: src/coin_zone.cpp.o
+
+.PHONY : src/coin_zone.o
+
+# target to build an object file
+src/coin_zone.cpp.o:
+	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/coin_zone.cpp.o
+.PHONY : src/coin_zone.cpp.o
+
+src/coin_zone.i: src/coin_zone.cpp.i
+
+.PHONY : src/coin_zone.i
+
+# target to preprocess a source file
+src/coin_zone.cpp.i:
+	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/coin_zone.cpp.i
+.PHONY : src/coin_zone.cpp.i
+
+src/coin_zone.s: src/coin_zone.cpp.s
+
+.PHONY : src/coin_zone.s
+
+# target to generate assembly for a file
+src/coin_zone.cpp.s:
+	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/coin_zone.cpp.s
+.PHONY : src/coin_zone.cpp.s
+
 src/color.o: src/color.cpp.o
 
 .PHONY : src/color.o
@@ -381,6 +408,9 @@ help:
 	@echo "... src/coin.o"
 	@echo "... src/coin.i"
 	@echo "... src/coin.s"
+	@echo "... src/coin_zone.o"
+	@echo "... src/coin_zone.i"
+	@echo "... src/coin_zone.s"
 	@echo "... src/color.o"
 	@echo "... src/color.i"
 	@echo "... src/color.s"

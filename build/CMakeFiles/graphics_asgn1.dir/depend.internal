@@ -9,6 +9,10 @@ CMakeFiles/graphics_asgn1.dir/src/coin.cpp.o
  /home/escanor/workarea/graphics/jetpackjoyride/src/coin.cpp
  /home/escanor/workarea/graphics/jetpackjoyride/src/coin.h
  /home/escanor/workarea/graphics/jetpackjoyride/src/main.h
+CMakeFiles/graphics_asgn1.dir/src/coin_zone.cpp.o
+ /home/escanor/workarea/graphics/jetpackjoyride/src/coin_zone.cpp
+ /home/escanor/workarea/graphics/jetpackjoyride/src/coinzone.h
+ /home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 CMakeFiles/graphics_asgn1.dir/src/color.cpp.o
  /home/escanor/workarea/graphics/jetpackjoyride/src/color.cpp
  /home/escanor/workarea/graphics/jetpackjoyride/src/main.h
@@ -18,6 +22,7 @@ CMakeFiles/graphics_asgn1.dir/src/input.cpp.o
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o
  /home/escanor/workarea/graphics/jetpackjoyride/src/ball.h
  /home/escanor/workarea/graphics/jetpackjoyride/src/coin.h
+ /home/escanor/workarea/graphics/jetpackjoyride/src/coinzone.h
  /home/escanor/workarea/graphics/jetpackjoyride/src/main.cpp
  /home/escanor/workarea/graphics/jetpackjoyride/src/main.h
  /home/escanor/workarea/graphics/jetpackjoyride/src/timer.h
