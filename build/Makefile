@@ -231,6 +231,33 @@ src/color.cpp.s:
 	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/color.cpp.s
 .PHONY : src/color.cpp.s
 
+src/enemy1.o: src/enemy1.cpp.o
+
+.PHONY : src/enemy1.o
+
+# target to build an object file
+src/enemy1.cpp.o:
+	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/enemy1.cpp.o
+.PHONY : src/enemy1.cpp.o
+
+src/enemy1.i: src/enemy1.cpp.i
+
+.PHONY : src/enemy1.i
+
+# target to preprocess a source file
+src/enemy1.cpp.i:
+	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/enemy1.cpp.i
+.PHONY : src/enemy1.cpp.i
+
+src/enemy1.s: src/enemy1.cpp.s
+
+.PHONY : src/enemy1.s
+
+# target to generate assembly for a file
+src/enemy1.cpp.s:
+	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/enemy1.cpp.s
+.PHONY : src/enemy1.cpp.s
+
 src/input.o: src/input.cpp.o
 
 .PHONY : src/input.o
@@ -414,6 +441,9 @@ help:
 	@echo "... src/color.o"
 	@echo "... src/color.i"
 	@echo "... src/color.s"
+	@echo "... src/enemy1.o"
+	@echo "... src/enemy1.i"
+	@echo "... src/enemy1.s"
 	@echo "... src/input.o"
 	@echo "... src/input.i"
 	@echo "... src/input.s"

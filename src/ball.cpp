@@ -52,7 +52,7 @@ Ball::Ball(float x, float y, color_t color) {
         -0.5f, 0.5f, 0.5f,
         0.5f,-0.5f, 0.5f
     };
-    this -> player.width = this -> player.height = 0.5;
+    this -> player.width = this -> player.height = 1.0;
     this->object = create3DObject(GL_TRIANGLES, 12*3, vertex_buffer_data, color, GL_FILL);
 }
 

@@ -40,6 +40,16 @@ main.h
 main.h
 /home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 
+/home/escanor/workarea/graphics/jetpackjoyride/src/enemy1.cpp
+enemy1.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/enemy1.h
+main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
+
+/home/escanor/workarea/graphics/jetpackjoyride/src/enemy1.h
+main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
+
 /home/escanor/workarea/graphics/jetpackjoyride/src/input.cpp
 iostream
 -
@@ -77,6 +87,8 @@ coin.h
 /home/escanor/workarea/graphics/jetpackjoyride/src/coin.h
 coinzone.h
 /home/escanor/workarea/graphics/jetpackjoyride/src/coinzone.h
+enemy1.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/enemy1.h
 
 /home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 iostream

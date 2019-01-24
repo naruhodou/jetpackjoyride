@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/graphics_asgn1.dir/src/coin.cpp.o"
   "CMakeFiles/graphics_asgn1.dir/src/coin_zone.cpp.o"
   "CMakeFiles/graphics_asgn1.dir/src/color.cpp.o"
+  "CMakeFiles/graphics_asgn1.dir/src/enemy1.cpp.o"
   "CMakeFiles/graphics_asgn1.dir/src/input.cpp.o"
   "CMakeFiles/graphics_asgn1.dir/src/main.cpp.o"
   "CMakeFiles/graphics_asgn1.dir/src/nonedit.cpp.o"

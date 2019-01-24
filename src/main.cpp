@@ -5,6 +5,7 @@
 #include "wall.h"
 #include "coin.h"
 #include "coinzone.h"
+#include "enemy1.h"
 using namespace std;
 
 GLMatrices Matrices;
@@ -17,12 +18,13 @@ GLFWwindow *window;
 
 Ball ball1;
 Wall wall1, wall2;
-Coin coinarr[1000];
-Coin_Zone czarr[10];
+Enemy1 e1arr[100];
+Coin coinarr[10000];
+Coin_Zone czarr[100];
 int total_coins = 0;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
-int sn = 1, standard_coin_length = 10, standard_coin_width = 2, standard_start_px = 5, standard_start_py = 5;
+int sn = 1, standard_coin_length = 10, standard_coin_width = 4, standard_start_px = 5, standard_start_py = 5;
 Timer t60(1.0 / 60);
 
 /* Render the scene with openGL */
@@ -60,6 +62,10 @@ void draw() {
     ball1.draw(VP);
     wall1.draw(VP);
     wall2.draw(VP);
+    for(int i = 0; i < 100; i++)
+    {
+        e1arr[i].draw(VP);
+    }
     for(int i = 0; i < total_coins; i++)
     {
         if(coinarr[i].isdraw)
@@ -115,11 +121,15 @@ void initGL(GLFWwindow *window, int width, int height) {
     // Create the models
 
     ball1       = Ball(0, 0, COLOR_RED);
-    wall1       = Wall(0, window_size / 2, COLOR_GREEN, 2.0, 200, -100.0, (float)window_size / 2);
-    wall2       = Wall(0, 0, COLOR_BLACK, window_size - 0.5, 200, -100.0, -0.5);
-    for(int i = 0; i < 10; i++, total_coins += standard_coin_length * standard_coin_width)
+    wall1       = Wall(0, window_size / 2, COLOR_GREEN, 2.0, 2000, -1000.0, (float)window_size / 2);
+    wall2       = Wall(0, 0, COLOR_BLACK, window_size - 0.5, 2000, -1000.0, -0.5);
+    for(int i = 0; i < 100; i++)
     {
-        czarr[i] = Coin_Zone(standard_start_px + 8 * i, standard_start_py, standard_coin_length, standard_coin_width);
+        e1arr[i] = Enemy1(1 + 16 * i, 5.0, 4.0, COLOR_GREEN);
+    }
+    for(int i = 0; i < 50; i++, total_coins += standard_coin_length * standard_coin_width)
+    {
+        czarr[i] = Coin_Zone(standard_start_px + 16 * i, standard_start_py, standard_coin_length, standard_coin_width);
         for(int j = 0; j < standard_coin_width; j++)
             for(int k = 0; k < standard_coin_length; k++)
                 coinarr[total_coins + j * standard_coin_length + k] = Coin(0.25, czarr[i].start_x + k * 0.6, czarr[i].start_y + j * 0.6, COLOR_YELLOW);

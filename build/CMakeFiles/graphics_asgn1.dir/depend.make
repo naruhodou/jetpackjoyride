@@ -16,12 +16,17 @@ CMakeFiles/graphics_asgn1.dir/src/coin_zone.cpp.o: ../src/main.h
 CMakeFiles/graphics_asgn1.dir/src/color.cpp.o: ../src/color.cpp
 CMakeFiles/graphics_asgn1.dir/src/color.cpp.o: ../src/main.h
 
+CMakeFiles/graphics_asgn1.dir/src/enemy1.cpp.o: ../src/enemy1.cpp
+CMakeFiles/graphics_asgn1.dir/src/enemy1.cpp.o: ../src/enemy1.h
+CMakeFiles/graphics_asgn1.dir/src/enemy1.cpp.o: ../src/main.h
+
 CMakeFiles/graphics_asgn1.dir/src/input.cpp.o: ../src/input.cpp
 CMakeFiles/graphics_asgn1.dir/src/input.cpp.o: ../src/main.h
 
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/ball.h
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/coin.h
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/coinzone.h
+CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/enemy1.h
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/main.h
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/timer.h
