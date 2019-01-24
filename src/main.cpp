@@ -6,6 +6,7 @@
 #include "coin.h"
 #include "coinzone.h"
 #include "enemy1.h"
+#include <unistd.h>
 using namespace std;
 
 GLMatrices Matrices;
@@ -24,7 +25,7 @@ Coin_Zone czarr[100];
 int total_coins = 0;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
-int sn = 1, standard_coin_length = 10, standard_coin_width = 4, standard_start_px = 5, standard_start_py = 5;
+int sn = 1, standard_coin_length = 10, standard_coin_width = 4, standard_start_px = 10, standard_start_py = 5;
 Timer t60(1.0 / 60);
 
 /* Render the scene with openGL */
@@ -100,6 +101,35 @@ void tick_input(GLFWwindow *window) {
         ball1.vertical_movement(false);
 }
 
+//reset all
+void reset_game()
+{
+    ball1.score = 0;
+    ball1.position.x = ball1.position.y = 0;
+    for(int i = 0; i < total_coins; i++)
+        coinarr[i].isdraw = true;
+}
+
+//collision with enemy 1
+void collision_enemy1_checker()
+{
+    double x1 = 0.50000 + ball1.position.x, x2 = ball1.position.x - 0.50000;
+    double y1 = 0.50000 + ball1.position.y, y2 = ball1.position.y - 0.50000;
+    for(int i = 0; i < 100; i++)
+    {
+        double angle = M_PI * e1arr[i].rotation / 180;
+        double cx1 = e1arr[i].position.x - e1arr[i].length / 2 * (double)cos(angle);
+        double cx2 = e1arr[i].position.x + e1arr[i].length / 2 * (double)cos(angle);
+        double cy1 = e1arr[i].position.y - e1arr[i].length / 2 * (double)sin(angle);
+        double cy2 = e1arr[i].position.y + e1arr[i].length / 2 * (double)sin(angle);
+        if((x1 >= cx1 && x1 <= cx2 && abs((y2 - cy1) - (x1 - cx1) * (double)tan(angle)) < EPS) || (x2 >= cx1 && x2 <= cx2 && abs((y1 - cy1) - (x2 - cx1) * (double)tan(angle)) < EPS))
+        {
+            reset_game();
+            return;
+        }
+    }    
+}
+
 void tick_elements() {
     //function called regularly
     ball1.tick(0);
@@ -111,9 +141,15 @@ void tick_elements() {
             ball1.score += 100;
         }
     }
-    cout << ball1.score << endl;
+    collision_enemy1_checker();
+    // cout << ball1.score << endl;
 }
 
+//Random Angle generator
+float random_angle(int i)
+{
+    return (2 * i * i * i + 7 * i * i + 31 * i + 79) % 83;
+}
 /* Initialize the OpenGL rendering properties */
 /* Add all the models to be created here */
 void initGL(GLFWwindow *window, int width, int height) {
@@ -125,7 +161,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     wall2       = Wall(0, 0, COLOR_BLACK, window_size - 0.5, 2000, -1000.0, -0.5);
     for(int i = 0; i < 100; i++)
     {
-        e1arr[i] = Enemy1(1 + 16 * i, 5.0, 4.0, COLOR_GREEN);
+        e1arr[i] = Enemy1(4 + 16 * i, 5.0, 4.0, random_angle(i), COLOR_GREEN);
     }
     for(int i = 0; i < 50; i++, total_coins += standard_coin_length * standard_coin_width)
     {

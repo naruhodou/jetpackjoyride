@@ -9,6 +9,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #define PI 3.14159265359
+#define EPS 0.1
 #define GLM_ENABLE_EXPERIMENTAL
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
@@ -19,8 +20,6 @@ struct color_t {
     int g;
     int b;
 };
-
-#define EPS 0.01
 // nonedit.cpp
 GLFWwindow *initGLFW(int width, int height);
 GLuint     LoadShaders(const char *vertex_file_path, const char *fragment_file_path);
