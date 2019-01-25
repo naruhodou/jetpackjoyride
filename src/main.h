@@ -5,7 +5,7 @@
 #include <cmath>
 #include <fstream>
 #include <vector>
-
+using namespace std;
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #define PI 3.14159265359
@@ -15,11 +15,18 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <vector>
 struct color_t {
     int r;
     int g;
     int b;
 };
+
+struct seven_segment
+{
+    vector <int> coding;
+};
+
 // nonedit.cpp
 GLFWwindow *initGLFW(int width, int height);
 GLuint     LoadShaders(const char *vertex_file_path, const char *fragment_file_path);

@@ -6,7 +6,7 @@
 #include "coin.h"
 #include "coinzone.h"
 #include "enemy1.h"
-#include <unistd.h>
+#include <string>
 using namespace std;
 
 GLMatrices Matrices;
@@ -27,12 +27,74 @@ Coin coinarr[10000];
 Coin jet_propulsion[4];
 Coin_Zone czarr[100];
 
+vector <Coin> wballon;
+vector <Enemy1> display_score;
+
+seven_segment score_map[10];
 int total_coins = 0, beg = 0, inc = 0;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
-int sn = 1, standard_coin_length = 10, standard_coin_width = 4, standard_start_px = 10, standard_start_py = 5;
+int sn = 1, standard_coin_length = 4, standard_coin_width = 4, standard_start_px = 10, standard_start_py = 5;
 Timer t60(1.0 / 60);
 int timestamp = 0, etime_stamp = 1;
+
+
+//score display logic
+string get_score(int score)
+{
+    if(score == 0)
+        return "0";
+    string ans;
+    while(score)
+    {
+        ans = (char)(score % 10 + '0') + ans;
+        score /= 10;
+    }
+    return ans;
+}
+
+void print_score(string s, glm::mat4 VP)
+{
+    float start_x = ball1.position.x, start_y = window_size - 0.2, length = 0.4, delta = 0.1;
+    for(int i = 0; i < s.size(); i++)
+    {
+        int num = s[i] - '0';
+        float x = start_x + i;
+        if(score_map[num].coding[0])
+        {
+            display_score.push_back(Enemy1(x + length / 2, start_y, length, delta, false, 0, COLOR_BLACK));
+        }
+        if(score_map[num].coding[1])
+        {
+            display_score.push_back(Enemy1(x + length, start_y - length / 2, length, delta, false, 90, COLOR_BLACK));
+        }
+        if(score_map[num].coding[2])
+        {
+            display_score.push_back(Enemy1(x + length, start_y - 3 * length / 2, length, delta, false, 90, COLOR_BLACK));
+        }
+        if(score_map[num].coding[3])
+        {
+            display_score.push_back(Enemy1(x + length / 2.0, start_y - 2 * length, length, delta, false, 0, COLOR_BLACK));
+        }
+        if(score_map[num].coding[4])
+        {
+            display_score.push_back(Enemy1(x, start_y - 3 * length / 2, length, delta, false, 90, COLOR_BLACK));
+        }
+        if(score_map[num].coding[5])
+        {
+            display_score.push_back(Enemy1(x, start_y - length / 2, length, delta, false, 90, COLOR_BLACK));
+        }
+        if(score_map[num].coding[6])
+        {
+            display_score.push_back(Enemy1(x + length / 2, start_y - length, length, delta, false, 0, COLOR_BLACK));
+        }
+    }
+    for(int i = 0; i < display_score.size(); i++)
+        display_score[i].draw(VP);
+    display_score.clear();
+}
+
+
 /* Render the scene with openGL */
 /* Edit this function according to your assignment */
 void draw() {
@@ -82,8 +144,12 @@ void draw() {
             jet_propulsion[i].draw(VP);
     if(beg)
         e2.draw(VP);
+    print_score(get_score(ball1.score), VP);
 }
 
+
+
+//key input
 void tick_input(GLFWwindow *window) {
     int left  = glfwGetKey(window, GLFW_KEY_LEFT);
     int right = glfwGetKey(window, GLFW_KEY_RIGHT);
@@ -111,6 +177,8 @@ void tick_input(GLFWwindow *window) {
         ball1.vertical_movement(false);
 }
 
+
+
 //reset all
 void reset_game()
 {
@@ -120,6 +188,8 @@ void reset_game()
         coinarr[i].isdraw = true;
     beg = 0; inc = 0;
 }
+
+
 
 //collision with enemy 1
 void collision_enemy1_checker()
@@ -139,7 +209,6 @@ void collision_enemy1_checker()
             return;
         }
     }
-    cout << abs((double)e2.position.y - (double)ball1.position.y) << endl;
     if(beg && e2.position.y >= ball1.position.y - 0.5 && e2.position.y <= ball1.position.y + 0.5)
     {
         reset_game();
@@ -147,6 +216,7 @@ void collision_enemy1_checker()
     }
 }
 
+//that function called everytime
 void tick_elements() {
     //function called regularly
     ball1.tick(0);
@@ -177,7 +247,7 @@ void tick_elements() {
     {
         inc = 1;
         e2.position.x = ball1.position.x;
-        e2.position.y = 1 + ((int)ball1.position.y * 9 + etime_stamp * etime_stamp) % 9;
+        e2.position.y = 1 + ((int)ball1.position.y * 9 + ball1.score * 37) % 9;
         beg += inc;
         beg %= 1200;
     }
@@ -192,14 +262,21 @@ void tick_elements() {
     }
     etime_stamp++;
     etime_stamp %= 600;
-    // cout << ball1.position.y << endl;
+    // cout << ball1.score << endl;
 }
+
+
+
 
 //Random Angle generator
 float random_angle(int i)
 {
     return (2 * i * i * i + 7 * i * i + 31 * i + 79) % 83;
 }
+
+
+
+
 /* Initialize the OpenGL rendering properties */
 /* Add all the models to be created here */
 void initGL(GLFWwindow *window, int width, int height) {
@@ -213,13 +290,13 @@ void initGL(GLFWwindow *window, int width, int height) {
     //enemy 1
     for(int i = 0; i < 100; i++)
     {
-        e1arr[i] = Enemy1(4 + 16 * i, 5.0, 4.0, false, random_angle(i), COLOR_GREEN);
+        e1arr[i] = Enemy1(4 + 16 * i, 5.0, 4.0, 0.3, false, random_angle(i), COLOR_GREEN);
     }
     //enemy 2
-    e2   = Enemy1(ball1.position.x, ball1.position.y, 2 * window_size - 2, true, 0, COLOR_ORANGE);
+    e2   = Enemy1(ball1.position.x, ball1.position.y, 2 * window_size - 2, 0.3, true, 0, COLOR_ORANGE);
 
     //coins initialization
-    for(int i = 0; i < 50; i++, total_coins += standard_coin_length * standard_coin_width)
+    for(int i = 0; i < 20; i++, total_coins += standard_coin_length * standard_coin_width)
     {
         czarr[i] = Coin_Zone(standard_start_px + 16 * i, standard_start_py, standard_coin_length, standard_coin_width);
         for(int j = 0; j < standard_coin_width; j++)
@@ -233,6 +310,18 @@ void initGL(GLFWwindow *window, int width, int height) {
         for(int j = 0; j < 2; j++)
             jet_propulsion[i * 2 + j] = Coin(0.1, (ball1.position.x - 0.3) + i * 0.2, (ball1.position.y - 1) + 0.2 * j, COLOR_ORANGE);
     }
+
+    //seven segment logic
+    score_map[0].coding = {1, 1, 1, 1, 1, 1, 0};
+    score_map[1].coding = {0, 1, 1, 0, 0, 0, 0};
+    score_map[2].coding = {1, 1, 0, 1, 1, 0, 1};
+    score_map[3].coding = {1, 1, 1, 1, 0, 0, 1};
+    score_map[4].coding = {0, 1, 1, 0, 0, 1, 1};
+    score_map[5].coding = {1, 0, 1, 1, 0, 1, 1};
+    score_map[6].coding = {1, 0, 1, 1, 1, 1, 1};
+    score_map[7].coding = {1, 1, 1, 0, 0, 0, 0};
+    score_map[8].coding = {1, 1, 1, 1, 1, 1, 1};    
+    score_map[9].coding = {1, 1, 1, 1, 0, 1, 1};
 
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
@@ -254,6 +343,9 @@ void initGL(GLFWwindow *window, int width, int height) {
     cout << "VERSION: " << glGetString(GL_VERSION) << endl;
     cout << "GLSL: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
 }
+
+
+
 
 
 int main(int argc, char **argv) {

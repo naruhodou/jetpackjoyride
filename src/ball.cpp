@@ -76,9 +76,13 @@ void Ball::tick(int motion_type) {
     if(this -> keypressx)
     {
         if(motion_type == 1)
-            this -> position.x += speed;
+            this -> position.x += 2 * speed;
         else if(motion_type == -1)
-            this -> position.x -= speed;
+            this -> position.x -= 2 * speed;
+    }
+    else
+    {
+        this -> position.x += speed;
     }
     if(this -> keypressy)
     {

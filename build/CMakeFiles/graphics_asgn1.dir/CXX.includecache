@@ -89,7 +89,7 @@ coinzone.h
 /home/escanor/workarea/graphics/jetpackjoyride/src/coinzone.h
 enemy1.h
 /home/escanor/workarea/graphics/jetpackjoyride/src/enemy1.h
-unistd.h
+string
 -
 
 /home/escanor/workarea/graphics/jetpackjoyride/src/main.h
@@ -110,6 +110,8 @@ glm/glm.hpp
 glm/gtx/transform.hpp
 -
 glm/gtc/matrix_transform.hpp
+-
+vector
 -
 
 /home/escanor/workarea/graphics/jetpackjoyride/src/nonedit.cpp
