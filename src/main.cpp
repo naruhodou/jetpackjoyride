@@ -21,13 +21,14 @@ Ball ball1;
 Wall wall1, wall2;
 Enemy1 e1arr[100];
 Coin coinarr[10000];
+Coin jet_propulsion[4];
 Coin_Zone czarr[100];
 int total_coins = 0;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
 int sn = 1, standard_coin_length = 10, standard_coin_width = 4, standard_start_px = 10, standard_start_py = 5;
 Timer t60(1.0 / 60);
-
+int timestamp = 0;
 /* Render the scene with openGL */
 /* Edit this function according to your assignment */
 void draw() {
@@ -72,6 +73,9 @@ void draw() {
         if(coinarr[i].isdraw)
             coinarr[i].draw(VP);
     }
+    for(int i = 0; i < 4; i++)
+        if(jet_propulsion[i].isdraw)
+            jet_propulsion[i].draw(VP);
 }
 
 void tick_input(GLFWwindow *window) {
@@ -141,8 +145,21 @@ void tick_elements() {
             ball1.score += 100;
         }
     }
+    for(int i = 0; i < 2; i++)
+    {
+        for(int j = 0; j < 2; j++)
+        {
+            jet_propulsion[i * 2 + j].position.x = (ball1.position.x - 0.25) + j * 0.5;
+            jet_propulsion[i * 2 + j].position.y = (ball1.position.y - 1) - 0.5 * i;
+            jet_propulsion[i * 2 + j].isdraw = (timestamp % 30 >= 15);
+            if(jet_propulsion[i * 2 + j].position.y <= 0.0f)
+                jet_propulsion[i * 2 + j].isdraw = false;
+        }
+    }
+    timestamp += 7;
+    timestamp %= 30;
     collision_enemy1_checker();
-    // cout << ball1.score << endl;
+    cout << ball1.score << endl;
 }
 
 //Random Angle generator
@@ -159,10 +176,14 @@ void initGL(GLFWwindow *window, int width, int height) {
     ball1       = Ball(0, 0, COLOR_RED);
     wall1       = Wall(0, window_size / 2, COLOR_GREEN, 2.0, 2000, -1000.0, (float)window_size / 2);
     wall2       = Wall(0, 0, COLOR_BLACK, window_size - 0.5, 2000, -1000.0, -0.5);
+    
+    //enemy 1
     for(int i = 0; i < 100; i++)
     {
         e1arr[i] = Enemy1(4 + 16 * i, 5.0, 4.0, random_angle(i), COLOR_GREEN);
     }
+    
+    //coins initialization
     for(int i = 0; i < 50; i++, total_coins += standard_coin_length * standard_coin_width)
     {
         czarr[i] = Coin_Zone(standard_start_px + 16 * i, standard_start_py, standard_coin_length, standard_coin_width);
@@ -171,6 +192,13 @@ void initGL(GLFWwindow *window, int width, int height) {
                 coinarr[total_coins + j * standard_coin_length + k] = Coin(0.25, czarr[i].start_x + k * 0.6, czarr[i].start_y + j * 0.6, COLOR_YELLOW);
     }
     
+    //jet propulsion
+    for(int i = 0; i < 2; i++)
+    {
+        for(int j = 0; j < 2; j++)
+            jet_propulsion[i * 2 + j] = Coin(0.08, (ball1.position.x - 0.3) + i * 0.2, (ball1.position.y - 1) + 0.2 * j, COLOR_ORANGE);
+    }
+
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
     // Get a handle for our "MVP" uniform
