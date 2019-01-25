@@ -90,7 +90,7 @@ void Ball::tick(int motion_type) {
     }
     else
     {
-        double displacement = this -> vy / 60 + this -> ay / 7200;
+        double displacement = this -> vy / (double)60 + this -> ay / (double)7200;
         this -> position.y += displacement;
         if(this -> position.y < 0)
             this -> position.y = 0;

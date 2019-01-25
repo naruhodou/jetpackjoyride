@@ -18,17 +18,21 @@ GLFWwindow *window;
 **************************/
 
 Ball ball1;
+
 Wall wall1, wall2;
-Enemy1 e1arr[100];
+
+Enemy1 e1arr[100], e2;
+
 Coin coinarr[10000];
 Coin jet_propulsion[4];
 Coin_Zone czarr[100];
-int total_coins = 0;
+
+int total_coins = 0, beg = 0, inc = 0;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
 int sn = 1, standard_coin_length = 10, standard_coin_width = 4, standard_start_px = 10, standard_start_py = 5;
 Timer t60(1.0 / 60);
-int timestamp = 0;
+int timestamp = 0, etime_stamp = 1;
 /* Render the scene with openGL */
 /* Edit this function according to your assignment */
 void draw() {
@@ -76,6 +80,8 @@ void draw() {
     for(int i = 0; i < 4; i++)
         if(jet_propulsion[i].isdraw)
             jet_propulsion[i].draw(VP);
+    if(beg)
+        e2.draw(VP);
 }
 
 void tick_input(GLFWwindow *window) {
@@ -112,6 +118,7 @@ void reset_game()
     ball1.position.x = ball1.position.y = 0;
     for(int i = 0; i < total_coins; i++)
         coinarr[i].isdraw = true;
+    beg = 0; inc = 0;
 }
 
 //collision with enemy 1
@@ -131,7 +138,13 @@ void collision_enemy1_checker()
             reset_game();
             return;
         }
-    }    
+    }
+    cout << abs((double)e2.position.y - (double)ball1.position.y) << endl;
+    if(beg && e2.position.y >= ball1.position.y - 0.5 && e2.position.y <= ball1.position.y + 0.5)
+    {
+        reset_game();
+        return;
+    }
 }
 
 void tick_elements() {
@@ -159,7 +172,27 @@ void tick_elements() {
     timestamp += 7;
     timestamp %= 30;
     collision_enemy1_checker();
-    cout << ball1.score << endl;
+
+    if(etime_stamp == 0)
+    {
+        inc = 1;
+        e2.position.x = ball1.position.x;
+        e2.position.y = 1 + ((int)ball1.position.y * 9 + etime_stamp * etime_stamp) % 9;
+        beg += inc;
+        beg %= 1200;
+    }
+    if(beg == 0)
+    {
+        inc = 0;
+    }
+    else
+    {
+        e2.position.x = ball1.position.x;
+        e2.position.y += (double)0.01;
+    }
+    etime_stamp++;
+    etime_stamp %= 600;
+    // cout << ball1.position.y << endl;
 }
 
 //Random Angle generator
@@ -180,9 +213,11 @@ void initGL(GLFWwindow *window, int width, int height) {
     //enemy 1
     for(int i = 0; i < 100; i++)
     {
-        e1arr[i] = Enemy1(4 + 16 * i, 5.0, 4.0, random_angle(i), COLOR_GREEN);
+        e1arr[i] = Enemy1(4 + 16 * i, 5.0, 4.0, false, random_angle(i), COLOR_GREEN);
     }
-    
+    //enemy 2
+    e2   = Enemy1(ball1.position.x, ball1.position.y, 2 * window_size - 2, true, 0, COLOR_ORANGE);
+
     //coins initialization
     for(int i = 0; i < 50; i++, total_coins += standard_coin_length * standard_coin_width)
     {
@@ -196,7 +231,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     for(int i = 0; i < 2; i++)
     {
         for(int j = 0; j < 2; j++)
-            jet_propulsion[i * 2 + j] = Coin(0.08, (ball1.position.x - 0.3) + i * 0.2, (ball1.position.y - 1) + 0.2 * j, COLOR_ORANGE);
+            jet_propulsion[i * 2 + j] = Coin(0.1, (ball1.position.x - 0.3) + i * 0.2, (ball1.position.y - 1) + 0.2 * j, COLOR_ORANGE);
     }
 
     // Create and compile our GLSL program from the shaders

@@ -9,7 +9,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #define PI 3.14159265359
-#define EPS 0.1
+#define EPS 0.2
 #define GLM_ENABLE_EXPERIMENTAL
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
