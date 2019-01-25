@@ -26,8 +26,8 @@ Enemy1 e1arr[100], e2;
 Coin coinarr[10000];
 Coin jet_propulsion[4];
 Coin_Zone czarr[100];
-
-vector <Coin> wballon;
+int let_it_come = 0;
+vector <Coin> wballoon;
 vector <Enemy1> display_score;
 
 seven_segment score_map[10];
@@ -55,7 +55,7 @@ string get_score(int score)
 
 void print_score(string s, glm::mat4 VP)
 {
-    float start_x = ball1.position.x, start_y = window_size - 0.2, length = 0.4, delta = 0.1;
+    float start_x = ball1.position.x - 4, start_y = window_size - 0.2, length = 0.4, delta = 0.1;
     for(int i = 0; i < s.size(); i++)
     {
         int num = s[i] - '0';
@@ -145,6 +145,8 @@ void draw() {
     if(beg)
         e2.draw(VP);
     print_score(get_score(ball1.score), VP);
+    for(int i = 0; i < wballoon.size(); i++)
+        wballoon[i].draw(VP);
 }
 
 
@@ -154,6 +156,7 @@ void tick_input(GLFWwindow *window) {
     int left  = glfwGetKey(window, GLFW_KEY_LEFT);
     int right = glfwGetKey(window, GLFW_KEY_RIGHT);
     int up = glfwGetKey(window, GLFW_KEY_SPACE);
+    int bulletfire = glfwGetKey(window, GLFW_KEY_F);
     if(left || right)
     {
         ball1.horizontal_movement(true);
@@ -175,6 +178,13 @@ void tick_input(GLFWwindow *window) {
     }
     else
         ball1.vertical_movement(false);
+    if(bulletfire) 
+    {
+        let_it_come++;
+        let_it_come %= 5;
+        if(!let_it_come)
+            wballoon.push_back(Coin(0.25, ball1.position.x + 0.7, ball1.position.y, COLOR_BLACK));
+    }
 }
 
 
@@ -214,6 +224,28 @@ void collision_enemy1_checker()
         reset_game();
         return;
     }
+}
+
+void handle_wballoon()
+{
+    vector <Coin> temp;
+    for(int i = 0; i < wballoon.size(); i++)
+    {
+        wballoon[i].position.y -= 0.05;
+        if(wballoon[i].position.y < EPS || (abs(e2.position.y - wballoon[i].position.y) < EPS && beg))
+        {
+            if(abs(e2.position.y - wballoon[i].position.y) < EPS)
+            {
+                beg = 0;
+                etime_stamp = 1;
+            }
+            continue;
+        }
+        temp.push_back(wballoon[i]);
+    }
+    wballoon.clear();
+    for(int i = 0; i < temp.size(); i++)
+        wballoon.push_back(temp[i]);
 }
 
 //that function called everytime
@@ -262,6 +294,8 @@ void tick_elements() {
     }
     etime_stamp++;
     etime_stamp %= 600;
+
+    handle_wballoon();
     // cout << ball1.score << endl;
 }
 
