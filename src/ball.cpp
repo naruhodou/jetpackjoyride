@@ -11,7 +11,7 @@ Ball::Ball(float x, float y, color_t color) {
     this -> ay = -10;
     this -> keypressx = false;
     this -> keypressy = false;
-    speed = 0.05000000;
+    this -> speed = 0.05000000;
     // Our vertices. Three consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
     // A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
     static const GLfloat vertex_buffer_data[] = {
@@ -76,20 +76,20 @@ void Ball::tick(int motion_type) {
     if(this -> keypressx)
     {
         if(motion_type == 1)
-            this -> position.x += 2 * speed;
+            this -> position.x += 2 * this -> speed;
         else if(motion_type == -1)
-            this -> position.x -= 2 * speed;
+            this -> position.x -= 2 * this -> speed;
     }
     else
     {
-        this -> position.x += speed;
+        this -> position.x += this -> speed;
     }
     if(this -> keypressy)
     {
         if(motion_type == 2 && this -> position.y <= window_size - 0.5)
         {
-            this -> position.y += speed;
-            this -> vy = speed;
+            this -> position.y += this -> speed;
+            this -> vy = this -> speed;
         }
     }
     else
@@ -103,6 +103,8 @@ void Ball::tick(int motion_type) {
         else
             this -> vy = 0;
     }
+    if(this -> position.x < 0)
+        this -> position.x = 0;
     this -> player.x = this -> position.x;
     this -> player.y = this -> position.y;
 }

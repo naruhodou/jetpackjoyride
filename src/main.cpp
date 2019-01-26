@@ -21,7 +21,7 @@ Ball ball1;
 
 Wall wall1, wall2;
 
-Enemy1 e1arr[100], e2, e3;
+Enemy1 e1arr[100], e2, e3, special_enemy;
 float e3x, e3y;
 
 Coin coinarr[10000], special_coin;
@@ -37,7 +37,7 @@ float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
 int sn = 1, standard_coin_length = 4, standard_coin_width = 4, standard_start_px = 10, standard_start_py = 5;
 Timer t60(1.0 / 60);
-int timestamp = 0, etime_stamp = 1;
+int timestamp = 0, etime_stamp = 1, utime_stamp = 0;
 
 /**************************
 * Customizable functions *
@@ -152,6 +152,8 @@ void draw() {
         e2.draw(VP);
     if(e3.ismove)
         e3.draw(VP);
+    if(special_enemy.ismove)
+        special_enemy.draw(VP);
     print_score(get_score(ball1.score), VP);
     for(int i = 0; i < wballoon.size(); i++)
         wballoon[i].draw(VP);
@@ -181,6 +183,29 @@ void handle_special_coins(int trigger)
     special_coin.position.y -= (double)trigger / (double)360;
     if(special_coin.position.y < 0.05)
         special_coin.isdraw = false;
+}
+
+void handle_special_enemy(int trigger)
+{
+    if(trigger == 150)
+    {
+        special_enemy.position.x = ball1.position.x - window_size;
+        special_enemy.position.y = window_size;
+        special_enemy.ismove = true;
+    }
+    if(!special_enemy.ismove)
+        return;
+    // cout << special_enemy.position.x << " " << special_enemy.position.y << " " << ball1.position.x << " " << ball1.position.y << endl;
+    if(detect_collision(special_enemy.checker, ball1.player))
+    {
+        special_enemy.ismove = false;
+        ball1.speed *= 1.5;
+        return;
+    }
+    special_enemy.position.x += (double)0.05;
+    special_enemy.position.y -= (double)(trigger - 150) / (double)360;
+    if(special_enemy.position.y < 0.05)
+        special_enemy.ismove = false;
 }
 
 
@@ -288,14 +313,21 @@ void enemy3_motion(float angle, float a, float b, float x, float y)
 {
     e3.position.x = x + a * cos(angle);
     e3.position.y = y + b * sin(angle);
-    if(e3.position.y < 0.05)
-        e3.ismove = false;
 }
 
 //that function called everytime
 void tick_elements() {
     //function called regularly
+
+
+    //universal time stamp
+    utime_stamp++;
+    utime_stamp %= 600;
+    
+    //general motion
     ball1.tick(0);
+
+    //detection collision with coins
     for(int i = 0; i < total_coins; i++)
     {
         if(detect_collision(ball1.player, coinarr[i].coin) && coinarr[i].isdraw)
@@ -304,6 +336,8 @@ void tick_elements() {
             ball1.score += 100;
         }
     }
+
+    //jet propulsion logic
     for(int i = 0; i < 2; i++)
     {
         for(int j = 0; j < 2; j++)
@@ -315,10 +349,14 @@ void tick_elements() {
                 jet_propulsion[i * 2 + j].isdraw = false;
         }
     }
+
+    //enemy 1 collision
     timestamp += 7;
     timestamp %= 30;
     collision_enemy1_checker();
 
+
+    //enemy 2 collision
     if(etime_stamp == 0)
     {
         inc = 1;
@@ -339,28 +377,37 @@ void tick_elements() {
     etime_stamp++;
     etime_stamp %= 600;
 
+
+    // balloon
     handle_wballoon();
-    if(etime_stamp >= 150)
+
+    //enemy 3
+    if(utime_stamp >= 100)
     {
         e3.ismove = true;
-        float a = 8, b = 4, angle = -180;
-        angle += etime_stamp - 150;
-        if(angle >= 90)
+        float a = 6, b = 2, angle = 45;
+        if(utime_stamp == 100)
+        {
+            e3x = ball1.position.x;
+            e3y = ball1.position.y;
+            e3.position = glm :: vec3(ball1.position.x, ball1.position.y, 0);
+        }
+        angle += utime_stamp - 100;
+        if(angle <= 360 && e3.position.y > 0.05)
         {
             enemy3_motion(angle * M_PI / 180, a, b, e3x, e3y);
-            angle += 2;
         }
         else
             e3.ismove = false;
     }
     else
         e3.ismove = false;
-
-    if(!e3.ismove)
-        e3x = ball1.position.x + 4, e3y = ball1.position.y;
     if(detect_collision(e3.checker, ball1.player) && e3.ismove)
         reset_game();
+    
+    //special coins
     handle_special_coins(random1);
+    handle_special_enemy(random1);
     random1++;
     random1 %= 300;
     // cout << ball1.score << endl;
@@ -398,7 +445,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     
     //enemy 3
     e3          = Enemy1(-1, 3, 0.8, 0.8,false, 0, COLOR_BLACK);
-
+    special_enemy = Enemy1(-20, 0, 0.8, 0.8, false, 0, COLOR_PURPLE);
     //coins initialization
     for(int i = 0; i < 20; i++, total_coins += standard_coin_length * standard_coin_width)
     {
