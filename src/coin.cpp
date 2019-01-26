@@ -28,7 +28,7 @@ Coin::Coin(float radius, float x, float y, color_t color) {
     this->object = create3DObject(GL_TRIANGLES, 3 * 300, vertex_buffer_data, color, GL_FILL);
     this -> coin.x = x;
     this -> coin.y = y;
-    this -> coin.width = this -> coin.height = radius;
+    this -> coin.width = this -> coin.height = (double)2 * radius;
 }
 
 void Coin::draw(glm::mat4 VP) {

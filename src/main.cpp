@@ -13,10 +13,10 @@ GLMatrices Matrices;
 GLuint     programID;
 GLFWwindow *window;
 
-/**************************
-* Customizable functions *
-**************************/
 
+/*********************
+ * Objects in the game
+ ********************/
 Ball ball1;
 
 Wall wall1, wall2;
@@ -24,10 +24,10 @@ Wall wall1, wall2;
 Enemy1 e1arr[100], e2, e3;
 float e3x, e3y;
 
-Coin coinarr[10000];
+Coin coinarr[10000], special_coin;
 Coin jet_propulsion[4];
 Coin_Zone czarr[100];
-int let_it_come = 0;
+int let_it_come = 0, random1 = 1;
 vector <Coin> wballoon;
 vector <Enemy1> display_score;
 
@@ -39,6 +39,9 @@ int sn = 1, standard_coin_length = 4, standard_coin_width = 4, standard_start_px
 Timer t60(1.0 / 60);
 int timestamp = 0, etime_stamp = 1;
 
+/**************************
+* Customizable functions *
+**************************/
 
 //score display logic
 string get_score(int score)
@@ -140,6 +143,8 @@ void draw() {
         if(coinarr[i].isdraw)
             coinarr[i].draw(VP);
     }
+    if(special_coin.isdraw)
+        special_coin.draw(VP);
     for(int i = 0; i < 4; i++)
         if(jet_propulsion[i].isdraw)
             jet_propulsion[i].draw(VP);
@@ -152,6 +157,32 @@ void draw() {
         wballoon[i].draw(VP);
 }
 
+/****************************
+ * Random Flying objects 
+ * *************************/
+void handle_special_coins(int trigger)
+{
+    if(trigger == 0)
+    {
+        special_coin.position.x = 10 + ball1.position.x;
+        special_coin.position.y = window_size;
+        special_coin.isdraw = true;
+    }
+    if(!special_coin.isdraw)
+        return;
+    // cout << special_coin.position.x << " " << special_coin.position.y << " " << ball1.position.x << " " << ball1.position.y << endl;
+    if(detect_collision(special_coin.coin, ball1.player))
+    {
+        special_coin.isdraw = false;
+        ball1.score += 1000;
+        return;
+    }
+    special_coin.position.x -= (double)0.05;
+    special_coin.position.y -= (double)trigger / (double)720;
+    cout << trigger / 720 << endl;
+    if(special_coin.position.y < 0.05)
+        special_coin.isdraw = false;
+}
 
 
 //key input
@@ -330,6 +361,9 @@ void tick_elements() {
         e3x = ball1.position.x + 4, e3y = ball1.position.y;
     if(detect_collision(e3.checker, ball1.player) && e3.ismove)
         reset_game();
+    handle_special_coins(random1);
+    random1++;
+    random1 %= 300;
     // cout << ball1.score << endl;
 }
 
@@ -374,7 +408,9 @@ void initGL(GLFWwindow *window, int width, int height) {
             for(int k = 0; k < standard_coin_length; k++)
                 coinarr[total_coins + j * standard_coin_length + k] = Coin(0.25, czarr[i].start_x + k * 0.6, czarr[i].start_y + j * 0.6, COLOR_YELLOW);
     }
-    
+    special_coin = Coin(0.5, -2 * window_size, 0, COLOR_PURPLE);
+    special_coin.isdraw = false;
+
     //jet propulsion
     for(int i = 0; i < 2; i++)
     {

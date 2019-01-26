@@ -7,3 +7,4 @@ const color_t COLOR_BLACK = { 52, 73, 94 };
 const color_t COLOR_ORANGE = { 255, 155, 10 };
 const color_t COLOR_YELLOW = { 248, 198, 2 };
 const color_t COLOR_BACKGROUND = { 88, 100, 150 };
+const color_t COLOR_PURPLE = { 153, 102, 255 };

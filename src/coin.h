@@ -15,5 +15,4 @@ public:
 private:
     VAO *object;
 };
-
 #endif // BALL_H
