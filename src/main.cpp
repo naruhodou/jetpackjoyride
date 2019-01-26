@@ -21,7 +21,8 @@ Ball ball1;
 
 Wall wall1, wall2;
 
-Enemy1 e1arr[100], e2;
+Enemy1 e1arr[100], e2, e3;
+float e3x, e3y;
 
 Coin coinarr[10000];
 Coin jet_propulsion[4];
@@ -144,6 +145,8 @@ void draw() {
             jet_propulsion[i].draw(VP);
     if(beg)
         e2.draw(VP);
+    if(e3.ismove)
+        e3.draw(VP);
     print_score(get_score(ball1.score), VP);
     for(int i = 0; i < wballoon.size(); i++)
         wballoon[i].draw(VP);
@@ -197,6 +200,7 @@ void reset_game()
     for(int i = 0; i < total_coins; i++)
         coinarr[i].isdraw = true;
     beg = 0; inc = 0;
+    etime_stamp = 1;
 }
 
 
@@ -248,6 +252,16 @@ void handle_wballoon()
         wballoon.push_back(temp[i]);
 }
 
+
+//enemy3 motion
+void enemy3_motion(float angle, float a, float b, float x, float y)
+{
+    e3.position.x = x + a * cos(angle);
+    e3.position.y = y + b * sin(angle);
+    if(e3.position.y < 0.05)
+        e3.ismove = false;
+}
+
 //that function called everytime
 void tick_elements() {
     //function called regularly
@@ -296,6 +310,26 @@ void tick_elements() {
     etime_stamp %= 600;
 
     handle_wballoon();
+    if(etime_stamp >= 150)
+    {
+        e3.ismove = true;
+        float a = 8, b = 4, angle = -180;
+        angle += etime_stamp - 150;
+        if(angle >= 90)
+        {
+            enemy3_motion(angle * M_PI / 180, a, b, e3x, e3y);
+            angle += 2;
+        }
+        else
+            e3.ismove = false;
+    }
+    else
+        e3.ismove = false;
+
+    if(!e3.ismove)
+        e3x = ball1.position.x + 4, e3y = ball1.position.y;
+    if(detect_collision(e3.checker, ball1.player) && e3.ismove)
+        reset_game();
     // cout << ball1.score << endl;
 }
 
@@ -327,7 +361,10 @@ void initGL(GLFWwindow *window, int width, int height) {
         e1arr[i] = Enemy1(4 + 16 * i, 5.0, 4.0, 0.3, false, random_angle(i), COLOR_GREEN);
     }
     //enemy 2
-    e2   = Enemy1(ball1.position.x, ball1.position.y, 2 * window_size - 2, 0.3, true, 0, COLOR_ORANGE);
+    e2          = Enemy1(ball1.position.x, ball1.position.y, 2 * window_size - 2, 0.3, true, 0, COLOR_ORANGE);
+    
+    //enemy 3
+    e3          = Enemy1(-1, 3, 0.8, 0.8,false, 0, COLOR_BLACK);
 
     //coins initialization
     for(int i = 0; i < 20; i++, total_coins += standard_coin_length * standard_coin_width)
