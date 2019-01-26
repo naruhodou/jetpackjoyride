@@ -171,15 +171,14 @@ void handle_special_coins(int trigger)
     if(!special_coin.isdraw)
         return;
     // cout << special_coin.position.x << " " << special_coin.position.y << " " << ball1.position.x << " " << ball1.position.y << endl;
-    if(detect_collision(special_coin.coin, ball1.player))
+    if((special_coin.position.x >= ball1.position.x - 0.5 && special_coin.position.x <= ball1.position.x + 0.5) && (special_coin.position.y >= ball1.position.y - 0.5 && special_coin.position.y <= ball1.position.y + 0.5))
     {
         special_coin.isdraw = false;
         ball1.score += 1000;
         return;
     }
     special_coin.position.x -= (double)0.05;
-    special_coin.position.y -= (double)trigger / (double)720;
-    cout << trigger / 720 << endl;
+    special_coin.position.y -= (double)trigger / (double)360;
     if(special_coin.position.y < 0.05)
         special_coin.isdraw = false;
 }
