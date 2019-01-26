@@ -6,6 +6,7 @@
 #include "coin.h"
 #include "coinzone.h"
 #include "enemy1.h"
+#include "ring.h"
 #include <string>
 using namespace std;
 
@@ -30,6 +31,7 @@ Coin_Zone czarr[100];
 int let_it_come = 0, random1 = 1;
 vector <Coin> wballoon;
 vector <Enemy1> display_score;
+Ring r1;
 
 seven_segment score_map[10];
 int total_coins = 0, beg = 0, inc = 0;
@@ -157,6 +159,7 @@ void draw() {
     print_score(get_score(ball1.score), VP);
     for(int i = 0; i < wballoon.size(); i++)
         wballoon[i].draw(VP);
+    r1.draw(VP);
 }
 
 /****************************
@@ -208,34 +211,71 @@ void handle_special_enemy(int trigger)
         special_enemy.ismove = false;
 }
 
+double dis(double x1, double y1, double x2, double y2)
+{
+    return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+}
 
 //key input
+int leftk, rightk, up, bulletfire;
 void tick_input(GLFWwindow *window) {
-    int left  = glfwGetKey(window, GLFW_KEY_LEFT);
-    int right = glfwGetKey(window, GLFW_KEY_RIGHT);
-    int up = glfwGetKey(window, GLFW_KEY_SPACE);
-    int bulletfire = glfwGetKey(window, GLFW_KEY_F);
-    if(left || right)
+    leftk  = glfwGetKey(window, GLFW_KEY_LEFT);
+    rightk = glfwGetKey(window, GLFW_KEY_RIGHT);
+    up = glfwGetKey(window, GLFW_KEY_SPACE);
+    bulletfire = glfwGetKey(window, GLFW_KEY_F);
+    if(abs(dis(ball1.position.x, ball1.position.y, r1.position.x, r1.position.y) -r1.radius) < EPS && ball1.position.y <= r1.position.y)
     {
-        ball1.horizontal_movement(true);
-        if (left) {
-            // Do something
-            ball1.tick(-1);
-        }
-        else if(right)
+        
+        if(abs(ball1.ay) <= 0.1)
         {
-            ball1.tick(1);
+            if(leftk)
+            {
+                // cout << "left\n";
+                ball1.tick(4);
+            }
+            else if(rightk)
+            {
+                // cout << "right\n";                
+                ball1.tick(5);
+            }
+        }
+        else
+        {
+            ball1.circle = true;
+            ball1.ctheta = atan((ball1.position.y - r1.position.y) / (ball1.position.x - r1.position.x));
+            // cout << ball1.ctheta << endl;
+            ball1.cr = r1.radius;
+            ball1.ay = 0;
         }
     }
     else
-        ball1.horizontal_movement(false);
-    if(up)
     {
-        ball1.vertical_movement(true);
-        ball1.tick(2);
+        ball1.ay = -10;
+        if(leftk || rightk)
+        {
+            ball1.horizontal_movement(true);
+            if (leftk) {
+                // Do something
+                ball1.tick(-1);
+            }
+            else if(rightk)
+            {
+                ball1.tick(1);
+            }
+        }
+        else
+            ball1.horizontal_movement(false);
+        if(up)
+        {
+            ball1.vertical_movement(true);
+            ball1.tick(2);
+        }
+        else
+        {
+            ball1.tick(0);
+            ball1.vertical_movement(false);
+        }
     }
-    else
-        ball1.vertical_movement(false);
     if(bulletfire) 
     {
         let_it_come++;
@@ -251,6 +291,7 @@ void tick_input(GLFWwindow *window) {
 void reset_game()
 {
     ball1.score = 0;
+    ball1.speed = 0.05;
     ball1.position.x = ball1.position.y = 0;
     for(int i = 0; i < total_coins; i++)
         coinarr[i].isdraw = true;
@@ -315,6 +356,7 @@ void enemy3_motion(float angle, float a, float b, float x, float y)
     e3.position.y = y + b * sin(angle);
 }
 
+
 //that function called everytime
 void tick_elements() {
     //function called regularly
@@ -325,7 +367,6 @@ void tick_elements() {
     utime_stamp %= 600;
     
     //general motion
-    ball1.tick(0);
 
     //detection collision with coins
     for(int i = 0; i < total_coins; i++)
@@ -410,6 +451,17 @@ void tick_elements() {
     handle_special_enemy(random1);
     random1++;
     random1 %= 300;
+
+
+    if(ball1.position.x >= r1.position.x - r1.radius && ball1.position.x <= r1.position.x + r1.radius && ball1.position.y >= r1.position.y - r1.radius && !ball1.circle)
+    {
+        ball1.ay = -10 - ((double)100) / (ball1.position.y - r1.position.y + r1.radius) / (ball1.position.y - r1.position.y + r1.radius); 
+    }
+    else if(!ball1.circle)
+    {
+        ball1.ay = -10;
+    }
+    // cout << dis(ball1.position.x, ball1.position.y, r1.position.x, r1.position.y) - r1.radius << endl;
     // cout << ball1.score << endl;
 }
 
@@ -463,6 +515,8 @@ void initGL(GLFWwindow *window, int width, int height) {
         for(int j = 0; j < 2; j++)
             jet_propulsion[i * 2 + j] = Coin(0.1, (ball1.position.x - 0.3) + i * 0.2, (ball1.position.y - 1) + 0.2 * j, COLOR_ORANGE);
     }
+
+    r1 = Ring(2, 94, 7, COLOR_BLACK);
 
     //seven segment logic
     score_map[0].coding = {1, 1, 1, 1, 1, 1, 0};

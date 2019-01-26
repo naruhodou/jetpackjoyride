@@ -13,6 +13,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/escanor/workarea/graphics/jetpackjoyride/src/main.cpp" "/home/escanor/workarea/graphics/jetpackjoyride/build/CMakeFiles/graphics_asgn1.dir/src/main.cpp.o"
   "/home/escanor/workarea/graphics/jetpackjoyride/src/nonedit.cpp" "/home/escanor/workarea/graphics/jetpackjoyride/build/CMakeFiles/graphics_asgn1.dir/src/nonedit.cpp.o"
   "/home/escanor/workarea/graphics/jetpackjoyride/src/other_handlers.cpp" "/home/escanor/workarea/graphics/jetpackjoyride/build/CMakeFiles/graphics_asgn1.dir/src/other_handlers.cpp.o"
+  "/home/escanor/workarea/graphics/jetpackjoyride/src/ring.cpp" "/home/escanor/workarea/graphics/jetpackjoyride/build/CMakeFiles/graphics_asgn1.dir/src/ring.cpp.o"
   "/home/escanor/workarea/graphics/jetpackjoyride/src/timer.cpp" "/home/escanor/workarea/graphics/jetpackjoyride/build/CMakeFiles/graphics_asgn1.dir/src/timer.cpp.o"
   "/home/escanor/workarea/graphics/jetpackjoyride/src/wall.cpp" "/home/escanor/workarea/graphics/jetpackjoyride/build/CMakeFiles/graphics_asgn1.dir/src/wall.cpp.o"
   )

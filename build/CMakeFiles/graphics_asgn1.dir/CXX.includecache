@@ -89,6 +89,8 @@ coinzone.h
 /home/escanor/workarea/graphics/jetpackjoyride/src/coinzone.h
 enemy1.h
 /home/escanor/workarea/graphics/jetpackjoyride/src/enemy1.h
+ring.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/ring.h
 string
 -
 
@@ -155,6 +157,16 @@ glm/gtx/transform.hpp
 -
 glm/gtc/matrix_transform.hpp
 -
+main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
+
+/home/escanor/workarea/graphics/jetpackjoyride/src/ring.cpp
+ring.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/ring.h
+main.h
+/home/escanor/workarea/graphics/jetpackjoyride/src/main.h
+
+/home/escanor/workarea/graphics/jetpackjoyride/src/ring.h
 main.h
 /home/escanor/workarea/graphics/jetpackjoyride/src/main.h
 
